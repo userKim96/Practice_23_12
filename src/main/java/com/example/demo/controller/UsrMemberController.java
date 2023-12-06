@@ -24,6 +24,10 @@ public class UsrMemberController {
 	@ResponseBody
 	public ResultDate<Member> doJoin(HttpSession session, String loginId, String loginPw, String name, String nickname, String cellphoneNum, String email) {
 		
+		if (session.getAttribute("logindMemberId") != null) {
+			return ResultDate.from("F-L", "이미 로그인한 상태입니다.");
+		}
+		
 		if (Util.empty(loginId)) {
 			return ResultDate.from("F-1", "아이디를 입력해주세요");
 		}
@@ -61,24 +65,24 @@ public class UsrMemberController {
 		public ResultDate doLogin(HttpSession session, String loginId, String loginPw) {
 			
 			if (session.getAttribute("logindMemberId") != null) {
-				return ResultDate.from("F-1", "이미 로그인한 상태입니다.");
+				return ResultDate.from("F-L", "이미 로그인한 상태입니다.");
 			}
 			
 			if (Util.empty(loginId)) {
-				return ResultDate.from("F-2", "아이디를 입력해주세요");
+				return ResultDate.from("F-1", "아이디를 입력해주세요");
 			}
 			if (Util.empty(loginPw)) {
-				return ResultDate.from("F-3", "비밀번호를 입력해주세요");
+				return ResultDate.from("F-2", "비밀번호를 입력해주세요");
 			}
 			
 			Member member = memberService.getMemberByLoginId(loginId);
 			
 			if (member == null) {
-				return ResultDate.from("F-4", Util.f("%s은(는) 존재하지 않는 입력입니다.", loginId));
+				return ResultDate.from("F-3", Util.f("%s은(는) 존재하지 않는 입력입니다.", loginId));
 			}
 			
 			if (member.getLoginPw().equals(loginPw) == false) {
-				return ResultDate.from("F-5","비밀번호가 일치하지 않습니다.");
+				return ResultDate.from("F-4","비밀번호가 일치하지 않습니다.");
 			}
 			
 			session.setAttribute("logindMemberId", member.getId());
@@ -90,7 +94,7 @@ public class UsrMemberController {
 		public ResultDate doLogout(HttpSession session) {
 
 			if (session.getAttribute("logindMemberId") == null) {
-				return ResultDate.from("F-1", "이미 로그아웃한 상태입니다.");
+				return ResultDate.from("F-L", "이미 로그아웃한 상태입니다.");
 			}
 			
 			session.removeAttribute("logindMember");

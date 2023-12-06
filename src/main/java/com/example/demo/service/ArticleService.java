@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import com.example.demo.dao.ArticleDao;
 import com.example.demo.vo.Article;
 
+import jakarta.servlet.http.HttpSession;
+
 @Service
 public class ArticleService {
 	
@@ -30,8 +32,8 @@ public class ArticleService {
 		articleDao.modifyArticle(id, title, body);
 	}
 	
-	public void writeArticle(String title, String body) {
-		articleDao.writeArticle(title, body);
+	public void writeArticle(String title, String body, int memberId) {
+		articleDao.writeArticle(title, body, memberId);
 	}
 	
 	public List<Article> getArticles() {

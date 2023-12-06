@@ -11,6 +11,8 @@ import com.example.demo.service.ArticleService;
 import com.example.demo.vo.Article;
 import com.example.demo.vo.ResultDate;
 
+import jakarta.servlet.http.HttpSession;
+
 @Controller
 public class UsrArticleController {
 	
@@ -22,7 +24,11 @@ public class UsrArticleController {
 
 	@RequestMapping("/usr/article/doWrite")
 	@ResponseBody
-	public ResultDate<Article> doWrite(String title, String body) {
+	public ResultDate<Article> doWrite(HttpSession session, String title, String body) {
+		
+		if (session.getAttribute("logindMemberId") == null) {
+			return ResultDate.from("F-L", "로그인 후 이용가능합니다.");
+		}
 		
 		if (Util.empty(title) ) {
 			return ResultDate.from("F-1", "제목을 입력해주세요.");
@@ -32,7 +38,7 @@ public class UsrArticleController {
 			return ResultDate.from("F-2", "내용을 입력해주세요.");
 		}
 		
-		articleService.writeArticle(title, body);
+		articleService.writeArticle(title, body, (int) session.getAttribute("logindMemberId"));
 		
 		int id = articleService.getLastInsertId();
 		
@@ -42,12 +48,20 @@ public class UsrArticleController {
 	
 	@RequestMapping("/usr/article/doDelete")
 	@ResponseBody
-	public ResultDate doDelete(int id) {
+	public ResultDate doDelete(HttpSession session, int id) {
+		
+		if (session.getAttribute("logindMemberId") == null) {
+			return ResultDate.from("F-L", "로그인 후 이용가능합니다.");
+		}
 		
 		Article article = articleService.getArticleById(id);
-		
+	
 		if (article == null) {
 			return ResultDate.from("F-1", Util.f("%d번 게시물은 존재하지 않습니다.", id));
+		}
+		
+		if (session.getAttribute("logindMemberId").equals(article.getMemberId()) == false) {
+			return ResultDate.from("F-1", Util.f("%d번 게시물에 권한이 없습니다.", id));
 		}
 		
 		articleService.deleteArticle(id);
@@ -57,12 +71,20 @@ public class UsrArticleController {
 	
 	@RequestMapping("/usr/article/doModify")
 	@ResponseBody
-	public ResultDate doModify(int id, String title, String body) {
+	public ResultDate doModify(HttpSession session, int id, String title, String body) {
+		
+		if (session.getAttribute("logindMemberId") == null) {
+			return ResultDate.from("F-L", "로그인 후 이용가능합니다.");
+		}
 		
 		Article article = articleService.getArticleById(id);
-		
+			
 		if (article == null) {
 			return ResultDate.from("F-1", Util.f("%d번 게시물은 존재하지 않습니다.", id));
+		}
+		
+		if (session.getAttribute("logindMemberId").equals(article.getMemberId()) == false) {
+			return ResultDate.from("F-1", Util.f("%d번 게시물에 권한이 없습니다.", id));
 		}
 		
 		articleService.modifyArticle(id, title, body);

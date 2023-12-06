@@ -10,6 +10,8 @@ import org.apache.ibatis.annotations.Update;
 
 import com.example.demo.vo.Article;
 
+import jakarta.servlet.http.HttpSession;
+
 @Mapper
 public interface ArticleDao {
 	
@@ -17,10 +19,11 @@ public interface ArticleDao {
 			INSERT INTO article
 				SET regDate = NOW(),
 					, updateDate = NOW(),
+					, memberId = #{memberId}
 					, title = #{title}
 					, body = #{body}
 			""")
-	public void writeArticle(String title, String body);
+	public void writeArticle(String title, String body, int memberId);
 	
 	@Select("""
 			SELECT *
