@@ -24,11 +24,19 @@ public class UsrArticleController {
 	@ResponseBody
 	public ResultDate doWrite(String title, String body) {
 		
+		if (Util.empty(title) ) {
+			return ResultDate.from("F-1", "제목을 입력해주세요.");
+		}
+		
+		if (Util.empty(body) ) {
+			return ResultDate.from("F-2", "내용을 입력해주세요.");
+		}
+		
 		articleService.writeArticle(title, body);
 		
 		int id = articleService.getLastInsertId();
 		
-		return ResultDate.from("S-1","게시물이 작성되었습니다.", articleService.getArticleById(id));
+		return ResultDate.from("S-1",Util.f("%d 게시물이 작성되었습니다.", id), articleService.getArticleById(id));
 		
 	}
 	
@@ -64,8 +72,15 @@ public class UsrArticleController {
 	
 	@RequestMapping("/usr/article/showList")
 	@ResponseBody
-	public List<Article> showList() {
-		return articleService.getArticles();
+	public ResultDate showList() {
+		
+		List<Article> articles = articleService.getArticles();
+		
+		if (articles.size() == 0) {
+			return ResultDate.from("F-1", "게시물이 존재하지 않습니다.");
+		}
+		
+		return ResultDate.from("S-1", "게시물 목록", articles);
 	}
 	
 	@RequestMapping("/usr/article/showDetail")
