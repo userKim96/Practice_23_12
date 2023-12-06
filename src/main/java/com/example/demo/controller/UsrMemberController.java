@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.demo.Util.Util;
 import com.example.demo.service.MemberService;
+import com.example.demo.vo.Member;
 import com.example.demo.vo.ResultDate;
 
 @Controller
@@ -19,7 +20,7 @@ public class UsrMemberController {
 
 	@RequestMapping("/usr/article/doJoin")
 	@ResponseBody
-	public ResultDate doJoin(String loginId, String loginPw, String name, String nickname, String cellphoneNum, String email) {
+	public ResultDate<Member> doJoin(String loginId, String loginPw, String name, String nickname, String cellphoneNum, String email) {
 		
 		if (Util.empty(loginId)) {
 			return ResultDate.from("F-1", "아이디를 입력해주세요");

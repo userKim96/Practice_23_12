@@ -3,18 +3,18 @@ package com.example.demo.vo;
 import lombok.Data;
 
 @Data
-public class ResultDate {
+public class ResultDate<DT> {
 	private String resultCode;
 	private String msg;
-	private Object data;
+	private DT data;
 	
-	public static ResultDate from(String resultCode, String msg) {
+	public static <DT> ResultDate<DT> from(String resultCode, String msg) {
 		return from(resultCode, msg, null);
 	}
 	
-	public static ResultDate from(String resultCode, String msg, Object data) {
+	public static <DT> ResultDate<DT> from(String resultCode, String msg, DT data) {
 		
-		ResultDate rd = new ResultDate();
+		ResultDate<DT> rd = new ResultDate<>();
 		rd.resultCode = resultCode;
 		rd.msg = msg;
 		rd.data = data;
