@@ -42,8 +42,14 @@ public interface MemberDao {
 				FROM `member`
 				WHERE loginId = #{loginId}
 			""")
-	public int isLoginId(String loginId);
+	public int isLoginIdByloginId(String loginId);
 
+	@Select("""
+			SELECT *
+				FROM `member`
+				WHERE loginId = #{loginId}
+			""")
+	public Member getMemberByLoginId(String loginId);
 
 
 

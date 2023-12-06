@@ -28,8 +28,15 @@ public class MemberService {
 		return memberDao.getMemberById(id);
 	}
 
-	public int isLoginId(String loginId) {
-		return memberDao.isLoginId(loginId);
+	public boolean isLoginIdByloginId(String loginId) {
+		if ( memberDao.isLoginIdByloginId(loginId) == 0) {
+			return false;
+		}
+		return true;
+	}
+
+	public Member getMemberByLoginId(String loginId) {
+		return memberDao.getMemberByLoginId(loginId);
 	}
 
 }
