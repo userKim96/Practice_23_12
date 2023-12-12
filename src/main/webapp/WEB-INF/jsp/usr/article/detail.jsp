@@ -44,7 +44,7 @@
 				
 				<c:if test="${logindMemberId != null && logindMemberId  == article.memberId }">
 					<a href="modify?id=${article.id }">수정</a>
-					<a href="doDelete?id=${article.id }">삭제</a>
+					<a href="doDelete?id=${article.id }" onclick="if(confirm('정말 삭제하시겠습니까?') == false) return false;">삭제</a>
 				</c:if>
 			</div>
 		</div>

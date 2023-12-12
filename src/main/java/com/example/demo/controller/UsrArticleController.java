@@ -11,7 +11,9 @@ import com.example.demo.Util.Util;
 import com.example.demo.service.ArticleService;
 import com.example.demo.vo.Article;
 import com.example.demo.vo.ResultDate;
+import com.example.demo.vo.Rq;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -25,9 +27,11 @@ public class UsrArticleController {
 
 	@RequestMapping("/usr/article/doWrite")
 	@ResponseBody
-	public ResultDate<Article> doWrite(HttpSession session, String title, String body) {
+	public ResultDate<Article> doWrite(HttpServletRequest req, String title, String body) {
 		
-		if (session.getAttribute("logindMemberId") == null) {
+		Rq rq = new Rq(req);
+		
+		if (rq.getLogindMemberId() == 0) {
 			return ResultDate.from("F-L", "로그인 후 이용가능합니다.");
 		}
 		
@@ -39,7 +43,7 @@ public class UsrArticleController {
 			return ResultDate.from("F-2", "내용을 입력해주세요.");
 		}
 		
-		articleService.writeArticle(title, body, (int) session.getAttribute("logindMemberId"));
+		articleService.writeArticle(rq.getLogindMemberId(), title, body);
 		
 		int id = articleService.getLastInsertId();
 		
@@ -49,25 +53,27 @@ public class UsrArticleController {
 	
 	@RequestMapping("/usr/article/doDelete")
 	@ResponseBody
-	public ResultDate doDelete(HttpSession session, int id) {
+	public String doDelete(HttpServletRequest req, int id) {
 		
-		if (session.getAttribute("logindMemberId") == null) {
-			return ResultDate.from("F-L", "로그인 후 이용가능합니다.");
+		Rq rq = new Rq(req);
+		
+		if (rq.getLogindMemberId() == 0) {
+			return Util.jsHistoryBack("로그인 후 이용가능합니다.");
 		}
 		
 		Article article = articleService.getArticleById(id);
 	
 		if (article == null) {
-			return ResultDate.from("F-1", Util.f("%d번 게시물은 존재하지 않습니다.", id));
+			return Util.jsHistoryBack(Util.f("%d번 게시물은 존재하지 않습니다.", id));
 		}
 		
-		if (session.getAttribute("logindMemberId").equals(article.getMemberId()) == false) {
-			return ResultDate.from("F-1", Util.f("%d번 게시물에 권한이 없습니다.", id));
+		if (rq.getLogindMemberId() != article.getMemberId()) {
+			return Util.jsHistoryBack(Util.f("%d번 게시물에 권한이 없습니다.", id));
 		}
 		
 		articleService.deleteArticle(id);
 		
-		return ResultDate.from("S-1", Util.f("%d번 게시물을 삭제했습니다.", id));
+		return Util.jsReplace(Util.f("%d번 게시물을 삭제했습니다.", id), "list");
 	}
 	
 	@RequestMapping("/usr/article/doModify")
@@ -104,19 +110,14 @@ public class UsrArticleController {
 	}
 	
 	@RequestMapping("/usr/article/detail")
-	public String showDetail(HttpSession session, Model model, int id) {
+	public String showDetail(HttpServletRequest req, Model model, int id) {
+		
+		Rq rq = new Rq(req);
 		
 		Article article = articleService.forPrintArticle(id);
 		
-		int logindMemberId = 0;
-		
-		if (session.getAttribute("logindMemberId") != null) {
-			logindMemberId = (int) session.getAttribute("logindMemberId");
-		}
-		
-		
 		model.addAttribute("article", article);
-		model.addAttribute("logindMemberId", logindMemberId);
+		model.addAttribute("logindMemberId", rq.getLogindMemberId());
 		return "usr/article/detail";
 	}
 	

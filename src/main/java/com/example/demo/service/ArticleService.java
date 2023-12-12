@@ -32,7 +32,7 @@ public class ArticleService {
 		articleDao.modifyArticle(id, title, body);
 	}
 	
-	public void writeArticle(String title, String body, int memberId) {
+	public void writeArticle(int memberId, String title, String body ) {
 		articleDao.writeArticle(title, body, memberId);
 	}
 	
