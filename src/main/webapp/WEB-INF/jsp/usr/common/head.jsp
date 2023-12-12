@@ -29,6 +29,6 @@
 	
 	<section class="my-3 text-2xl">
 		<div class="container my-auto px-3">
-			<h1>${pageTitle }</h1>
+			<h1 class="font-bold">${pageTitle }</h1>
 		</div>
 	</section>
