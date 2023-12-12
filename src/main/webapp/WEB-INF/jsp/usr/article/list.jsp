@@ -23,7 +23,7 @@
 							<tr>
 								<th>${article.id }</th>
 								<th>${article.regDate.substring(2, 16) }</th>
-								<th class="hover:nuderline"><a href="detail?id=${articles }">${article.title }</a></th>
+								<th class="hover:nuderline"><a href="detail?id=${article.id }">${article.title }</a></th>
 								<th>${article.writerName }</th>
 							</tr>
 						</c:forEach>

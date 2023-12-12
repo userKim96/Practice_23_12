@@ -13,5 +13,4 @@ public class Article {
 	private String body;
 	
 	private String writerName;
-	
 }

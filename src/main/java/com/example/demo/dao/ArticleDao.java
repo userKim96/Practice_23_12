@@ -26,16 +26,27 @@ public interface ArticleDao {
 	@Select("""
 			SELECT A.*, M.name AS writerName
 				FROM article AS A
-				INNER JOIN member AS M
+				INNER JOIN `member` AS M
 				ON A.memberId = M.id
 				ORDER BY A.id DESC
 			""")
 	public List<Article> getArticles();
 	
 	@Select("""
-			SELECT *
-				FROM article
-				WHERE id = #{id}
+			SELECT A.*, M.name AS writerName
+				FROM article AS A
+				INNER JOIN `member` AS M
+				ON A.memberId = M.id
+				WHERE A.id = #{id}
+			""")
+	public Article forPrintArticle(int id);
+	
+	@Select("""
+			SELECT A.*, M.name AS writerName
+				FROM article AS A
+				INNER JOIN `member` AS M
+				ON A.memberId = M.id
+				WHERE A.id = #{id}
 			""")
 	public Article getArticleById(int id);
 	

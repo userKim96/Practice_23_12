@@ -20,6 +20,9 @@ public class ArticleService {
 	public Article getArticleById(int id) {
 		return articleDao.getArticleById(id);
 	}
+	public Article forPrintArticle(int id) {
+		return articleDao.getArticleById(id);
+	}
 	
 	public void deleteArticle(int id) {
 		articleDao.deleteArticle(id);
