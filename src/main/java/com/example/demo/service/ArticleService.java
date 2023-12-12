@@ -1,14 +1,11 @@
 package com.example.demo.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
 import com.example.demo.dao.ArticleDao;
 import com.example.demo.vo.Article;
-
-import jakarta.servlet.http.HttpSession;
 
 @Service
 public class ArticleService {

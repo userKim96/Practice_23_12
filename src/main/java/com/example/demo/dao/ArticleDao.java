@@ -10,8 +10,6 @@ import org.apache.ibatis.annotations.Update;
 
 import com.example.demo.vo.Article;
 
-import jakarta.servlet.http.HttpSession;
-
 @Mapper
 public interface ArticleDao {
 	
