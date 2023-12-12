@@ -1,0 +1,23 @@
+@charset "UTF-8";
+
+@font-face {
+    font-family: 'NEXON Lv1 Gothic OTF';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv1 Gothic OTF.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+html > body {
+	font-family :'NEXON Lv1 Gothic OTF', sans-serif;
+	text-underline-position: under;
+}
+
+.table-box-type > table {
+	width: 100%;
+}
+
+.table-box-type > table th, .table-box-type > table td {
+	border: 1px solid black;
+	padding: 10px;
+	text-align: center;
+	}
