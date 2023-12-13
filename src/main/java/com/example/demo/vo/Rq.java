@@ -22,13 +22,13 @@ public class Rq {
 		
 		this.session = req.getSession();
 		
-		int logindMemberId = 0;
+		int loginedMemberId = 0;
 		
-		if (session.getAttribute("logindMemberId") != null) {
-			logindMemberId = (int) session.getAttribute("logindMemberId");
+		if (session.getAttribute("loginedMemberId") != null) {
+			loginedMemberId = (int) session.getAttribute("loginedMemberId");
 		}
 		
-		this.loginedMemberId = logindMemberId;
+		this.loginedMemberId = loginedMemberId;
 	}
 
 	public void jsPrintHistoryBack(String msg) {

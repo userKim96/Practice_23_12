@@ -69,26 +69,34 @@ public class UsrArticleController {
 	}
 	
 	@RequestMapping("/usr/article/modify")
-	@ResponseBody
-	public ResultDate Modify(HttpSession session, int id, String title, String body) {
+	public String Modify(HttpServletRequest req, Model model, int id) {
 		
-		if (session.getAttribute("logindMemberId") == null) {
-			return ResultDate.from("F-L", "로그인 후 이용가능합니다.");
-		}
+		Article article = articleService.forPrintArticle(id);
+		
+		model.addAttribute("article", article);
+		
+		return "usr/article/modify";
+	}
+	
+	@RequestMapping("/usr/article/doModify")
+	@ResponseBody
+	public String doModify(HttpServletRequest req, int id, String title, String body) {
+		
+		Rq rq = (Rq) req.getAttribute("rq");
 		
 		Article article = articleService.getArticleById(id);
-			
+		
 		if (article == null) {
-			return ResultDate.from("F-1", Util.f("%d번 게시물은 존재하지 않습니다.", id));
+			return Util.jsHistoryBack(Util.f("%d번 게시물은 존재하지 않습니다.", id));
 		}
 		
-		if (session.getAttribute("logindMemberId").equals(article.getMemberId()) == false) {
-			return ResultDate.from("F-1", Util.f("%d번 게시물에 권한이 없습니다.", id));
+		if (rq.getLoginedMemberId() != (article.getMemberId())) {
+			return Util.jsHistoryBack(Util.f("%d번 게시물에 권한이 없습니다.", id));
 		}
 		
 		articleService.modifyArticle(id, title, body);
 		
-		return ResultDate.from("S-1", Util.f("%d번 게시물을 수정했습니다.", id));
+		return Util.jsReplace(Util.f("%d번 게시물이 수정되었습니다.", id), Util.f("detail?id=%d", id));
 	}
 	
 	@RequestMapping("/usr/article/list")

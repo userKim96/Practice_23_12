@@ -33,10 +33,8 @@ public interface ArticleDao {
 	public List<Article> getArticles();
 	
 	@Select("""
-			SELECT A.*, M.name AS writerName
-				FROM article AS A
-				INNER JOIN `member` AS M
-				ON A.memberId = M.id
+			SELECT *
+				FROM article 
 				WHERE A.id = #{id}
 			""")
 	public Article forPrintArticle(int id);
@@ -59,7 +57,7 @@ public interface ArticleDao {
 							, title = #{title}
 						</if>
 						<if test="body != null and body != ''">
-							, body = #{body}
+							, `body` = #{body}
 						</if>
 					WHERE id = #{id}
 			</script>
