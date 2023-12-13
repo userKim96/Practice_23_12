@@ -29,11 +29,7 @@ public class UsrArticleController {
 	@ResponseBody
 	public ResultDate<Article> doWrite(HttpServletRequest req, String title, String body) {
 		
-		Rq rq = new Rq(req);
-		
-		if (rq.getLogindMemberId() == 0) {
-			return ResultDate.from("F-L", "로그인 후 이용가능합니다.");
-		}
+		Rq rq = (Rq) req.getAttribute("rq");
 		
 		if (Util.empty(title) ) {
 			return ResultDate.from("F-1", "제목을 입력해주세요.");
@@ -43,7 +39,7 @@ public class UsrArticleController {
 			return ResultDate.from("F-2", "내용을 입력해주세요.");
 		}
 		
-		articleService.writeArticle(rq.getLogindMemberId(), title, body);
+		articleService.writeArticle(rq.getLoginedMemberId(), title, body);
 		
 		int id = articleService.getLastInsertId();
 		
@@ -55,11 +51,7 @@ public class UsrArticleController {
 	@ResponseBody
 	public String doDelete(HttpServletRequest req, int id) {
 		
-		Rq rq = new Rq(req);
-		
-		if (rq.getLogindMemberId() == 0) {
-			return Util.jsHistoryBack("로그인 후 이용가능합니다.");
-		}
+		Rq rq = (Rq) req.getAttribute("rq");
 		
 		Article article = articleService.getArticleById(id);
 	
@@ -67,7 +59,7 @@ public class UsrArticleController {
 			return Util.jsHistoryBack(Util.f("%d번 게시물은 존재하지 않습니다.", id));
 		}
 		
-		if (rq.getLogindMemberId() != article.getMemberId()) {
+		if (rq.getLoginedMemberId() != article.getMemberId()) {
 			return Util.jsHistoryBack(Util.f("%d번 게시물에 권한이 없습니다.", id));
 		}
 		
@@ -76,9 +68,9 @@ public class UsrArticleController {
 		return Util.jsReplace(Util.f("%d번 게시물을 삭제했습니다.", id), "list");
 	}
 	
-	@RequestMapping("/usr/article/doModify")
+	@RequestMapping("/usr/article/modify")
 	@ResponseBody
-	public ResultDate doModify(HttpSession session, int id, String title, String body) {
+	public ResultDate Modify(HttpSession session, int id, String title, String body) {
 		
 		if (session.getAttribute("logindMemberId") == null) {
 			return ResultDate.from("F-L", "로그인 후 이용가능합니다.");
@@ -100,7 +92,7 @@ public class UsrArticleController {
 	}
 	
 	@RequestMapping("/usr/article/list")
-	public String showList(Model model) {
+	public String list(Model model) {
 		
 		List<Article> articles = articleService.getArticles();
 		
@@ -110,14 +102,14 @@ public class UsrArticleController {
 	}
 	
 	@RequestMapping("/usr/article/detail")
-	public String showDetail(HttpServletRequest req, Model model, int id) {
+	public String detail(HttpServletRequest req, Model model, int id) {
 		
-		Rq rq = new Rq(req);
+		Rq rq = (Rq) req.getAttribute("rq");
 		
 		Article article = articleService.forPrintArticle(id);
 		
 		model.addAttribute("article", article);
-		model.addAttribute("logindMemberId", rq.getLogindMemberId());
+		model.addAttribute("logindMemberId", rq.getLoginedMemberId());
 		return "usr/article/detail";
 	}
 	

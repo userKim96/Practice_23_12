@@ -26,7 +26,7 @@ public class Util {
 						const msg = '%s'.trim();
 						
 						if (msg.length > 0) {
-							alert();
+							alert(msg);
 						}
 						
 						history.back();
@@ -50,7 +50,7 @@ public class Util {
 						const msg = '%s'.trim();
 						
 						if (msg.length > 0) {
-							alert();
+							alert(msg);
 						}
 						
 						location.replace('%s');

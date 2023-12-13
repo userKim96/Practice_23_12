@@ -24,6 +24,12 @@
 		<ul class="flex">
 			<li><a class="hover:underline" href="/"><span class="h-full px-3 flex items-conter">HOME</span></a></li>
 			<li><a class="hover:underline" href="/usr/article/list"><span class="h-full px-3 flex items-conter">LIST</span></a></li>
+			<c:if test="${rq.getLoginedMemberId() == 0 }">
+				<li><a class="hover:underline" href="/usr/member/login"><span class="h-full px-3 flex items-conter">로그인</span></a></li>
+			</c:if>
+			<c:if test="${rq.getLoginedMemberId() != 0 }">
+				<li><a class="hover:underline" href="/usr/member/doLogout"><span class="h-full px-3 flex items-conter">로그아웃</span></a></li>
+			</c:if>
 		</ul>
 	</div>
 	
