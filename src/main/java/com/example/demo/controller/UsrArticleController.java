@@ -71,7 +71,17 @@ public class UsrArticleController {
 	@RequestMapping("/usr/article/modify")
 	public String Modify(HttpServletRequest req, Model model, int id) {
 		
+		Rq rq = (Rq) req.getAttribute("rq");
+		
 		Article article = articleService.forPrintArticle(id);
+		
+		if (article == null) {
+			return rq.jsReturnOnView(Util.f("%d번 게시물은 존재하지 않습니다.", id));
+		}
+		
+		if (rq.getLoginedMemberId() != (article.getMemberId())) {
+			return rq.jsReturnOnView(Util.f("%d번 게시물에 권한이 없습니다.", id));
+		}
 		
 		model.addAttribute("article", article);
 		
