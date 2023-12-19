@@ -32,8 +32,8 @@ public class ArticleService {
 		articleDao.modifyArticle(id, title, body);
 	}
 	
-	public void writeArticle(int memberId, String title, String body ) {
-		articleDao.writeArticle(title, body, memberId);
+	public void writeArticle(int memberId, String title, String body, int boardId) {
+		articleDao.writeArticle(title, body, memberId, boardId);
 	}
 	
 	public List<Article> getArticles(int boardId) {
@@ -48,6 +48,11 @@ public class ArticleService {
 
 	public int getArticlesCut(int boardId) {
 		return articleDao.getArticlesCut(boardId);
+	}
+
+
+	public int getWriterAuthLevel(int loginedMemberId) {
+		return articleDao.getWriterAuthLevel(loginedMemberId);
 	}
 
 }

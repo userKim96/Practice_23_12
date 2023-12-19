@@ -22,5 +22,16 @@ html > body {
 	text-align: center;
 	}
 	
+label {
+  font-size: 18px;
+  line-height: 2rem;
+  padding: 0.2em 0.4em;
+}
+
+[type="radio"],
+span {
+  vertical-align: middle;
+}
+	
 
 

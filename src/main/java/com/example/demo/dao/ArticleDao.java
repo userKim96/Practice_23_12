@@ -19,11 +19,11 @@ public interface ArticleDao {
 				SET regDate = NOW()
 					, updateDate = NOW()
 					, memberId = #{memberId}
-					, boardId = 1
+					, boardId = #{boardId}
 					, title = #{title}
 					, body = #{body}
 			""")
-	public void writeArticle(String title, String body, int memberId);
+	public void writeArticle(String title, String body, int memberId, int boardId);
 	
 	@Select("""
 			<script>	
@@ -93,4 +93,11 @@ public interface ArticleDao {
 			</script>
 			""")
 	public int getArticlesCut(int boardId);
+
+	@Select("""
+			SELECT authLevel
+			FROM `member`
+			WHERE id = #{loginedMemberId}
+			""")
+	public int getWriterAuthLevel(int loginedMemberId);
 }

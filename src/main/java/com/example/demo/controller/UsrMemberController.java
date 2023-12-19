@@ -16,17 +16,17 @@ import jakarta.servlet.http.HttpServletRequest;
 public class UsrMemberController {
 
 	private MemberService memberService;
+	private Rq rq;
 
-	UsrMemberController(MemberService memberService) {
+	UsrMemberController(MemberService memberService, Rq rq) {
 		this.memberService = memberService;
+		this.rq = rq;
 	}
 
 	@RequestMapping("/usr/member/doJoin")
 	@ResponseBody
-	public ResultDate<Member> doJoin(HttpServletRequest req, String loginId, String loginPw, String name, String nickname,
+	public ResultDate<Member> doJoin(String loginId, String loginPw, String name, String nickname,
 			String cellphoneNum, String email) {
-		
-		Rq rq = (Rq) req.getAttribute("rq");
 		
 		if (rq.getLoginedMemberId() != 0) {
 			return ResultDate.from("F-L", "이미 로그인한 상태입니다.");
@@ -72,9 +72,7 @@ public class UsrMemberController {
 	
 	@RequestMapping("/usr/member/doLogin")
 	@ResponseBody
-	public String doLogin(HttpServletRequest req, String loginId, String loginPw) {
-		
-		Rq rq = (Rq) req.getAttribute("rq");
+	public String doLogin(String loginId, String loginPw) {
 		
 		if (rq.getLoginedMemberId() != 0) {
 			return Util.jsHistoryBack("이미 로그인한 상태입니다.");
@@ -93,8 +91,8 @@ public class UsrMemberController {
 			return Util.jsHistoryBack("존재하지 않는 아이디입니다.");
 		}
 		
-		if (member.getLoginPw().equals(loginPw) == false) {
-			return Util.jsHistoryBack("비밀번호가 일치하지 않습니다.");
+		if (member.getLoginPw().equals(Util.sha256(loginPw)) == false) {
+			return Util.jsHistoryBack("비밀번호를 확인해주세요");
 		}
 		
 		rq.login(member);
@@ -104,9 +102,7 @@ public class UsrMemberController {
 
 	@RequestMapping("/usr/member/doLogout")
 	@ResponseBody
-	public String doLogout(HttpServletRequest req) {
-		
-		Rq rq = (Rq) req.getAttribute("rq");
+	public String doLogout() {
 		
 		rq.logout();
 		

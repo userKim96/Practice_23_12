@@ -35,6 +35,25 @@
 				<div class="table-box-type">
 					<table>
 						<tr>
+							<th>게시판</th>
+							<td>
+								<label>
+									<c:if test="${writerAuthLevel != 1 }">
+										<input type="radio" name="boardId" class="radio radio-sm mr-1" value="1" disabled/>
+										<span class="mr-4">공지사항</span>
+									</c:if>
+									<c:if test="${writerAuthLevel == 1 }">
+										<input type="radio" name="boardId" class="radio radio-sm mr-1" value="1" />
+										<span class=" mr-4">공지사항</span>
+									</c:if>
+								</label>
+								<label>
+									<input type="radio" name="boardId" class="radio mr-1" value="2" checked/>
+									<span>자유게시판</span>
+								</label>
+							</td>
+						</tr>
+						<tr>
 							<td>제목</td>
 							<th><input name="title" type="text" class="input input-bordered input-lg w-full max-w-xs" placeholder="제목를 입력해주세요."/></th>
 						</tr>
