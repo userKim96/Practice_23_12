@@ -26,7 +26,8 @@
 		<div class="flex-grow"></div>
 		<ul class="flex">
 			<li><a class="hover:underline" href="/"><span class="h-full px-3 flex items-conter">HOME</span></a></li>
-			<li><a class="hover:underline" href="/usr/article/list"><span class="h-full px-3 flex items-conter">LIST</span></a></li>
+			<li><a class="hover:underline" href="/usr/article/list?boardId=1"><span class="h-full px-3 flex items-conter">NOTICE</span></a></li>
+			<li><a class="hover:underline" href="/usr/article/list?boardId=2"><span class="h-full px-3 flex items-conter">FREE</span></a></li>
 			<c:if test="${rq.getLoginedMemberId() == 0 }">
 				<li><a class="hover:underline" href="/usr/member/login"><span class="h-full px-3 flex items-conter">로그인</span></a></li>
 			</c:if>

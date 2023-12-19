@@ -9,20 +9,22 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.demo.Util.Util;
 import com.example.demo.service.ArticleService;
+import com.example.demo.service.BoardService;
 import com.example.demo.vo.Article;
-import com.example.demo.vo.ResultDate;
+import com.example.demo.vo.Board;
 import com.example.demo.vo.Rq;
 
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class UsrArticleController {
 	
 	private ArticleService articleService;
+	private BoardService boardService;
 	
-	UsrArticleController(ArticleService articleService) {
+	UsrArticleController(ArticleService articleService, BoardService boardService) {
 		this.articleService = articleService;
+		this.boardService = boardService;
 	}
 
 	@RequestMapping("/usr/article/write")
@@ -117,11 +119,17 @@ public class UsrArticleController {
 	}
 	
 	@RequestMapping("/usr/article/list")
-	public String list(Model model) {
+	public String list(Model model, int boardId) {
 		
-		List<Article> articles = articleService.getArticles();
+		Board board = boardService.getBoardById(boardId);
+		
+		List<Article> articles = articleService.getArticles(boardId);
+		
+		int articlesCut = articleService.getArticlesCut(boardId);
 		
 		model.addAttribute("articles", articles);
+		model.addAttribute("board", board);
+		model.addAttribute("articlesCut", articlesCut);
 		
 		return "usr/article/list";
 	}

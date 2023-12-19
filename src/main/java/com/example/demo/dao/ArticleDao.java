@@ -9,6 +9,7 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 import com.example.demo.vo.Article;
+import com.example.demo.vo.Board;
 
 @Mapper
 public interface ArticleDao {
@@ -25,13 +26,18 @@ public interface ArticleDao {
 	public void writeArticle(String title, String body, int memberId);
 	
 	@Select("""
-			SELECT A.*, M.name AS writerName
-				FROM article AS A
-				INNER JOIN `member` AS M
-				ON A.memberId = M.id
-				ORDER BY A.id DESC
+			<script>	
+				SELECT A.*, M.name AS writerName
+					FROM article AS A
+					INNER JOIN `member` AS M
+					ON A.memberId = M.id
+					<if test="boardId != 0">
+						WHERE A.boardId = #{boardId}
+					</if>
+					ORDER BY A.id DESC
+			</script>
 			""")
-	public List<Article> getArticles();
+	public List<Article> getArticles(int boardId);
 	
 	@Select("""
 			SELECT *
@@ -76,6 +82,15 @@ public interface ArticleDao {
 			SELECT LAST_INSERT_ID()
 			""")
 	public int getLastInsertId();
-	
 
+	@Select("""
+			<script>
+				SELECT COUNT(*)
+				FROM article
+				<if test="boardId != 0">
+					WHERE boardId = #{boardId}
+				</if>
+			</script>
+			""")
+	public int getArticlesCut(int boardId);
 }

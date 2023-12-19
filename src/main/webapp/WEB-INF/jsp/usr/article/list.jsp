@@ -2,12 +2,18 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 	
-	<c:set var="pageTitle" value="Article List" />
-	
+	<c:set var="pageTitle" value="${board.name }" />
+
 	<%@ include file="../common/head.jsp" %>
+	
 	
 	<section class="mt-8">
 		<div class="container mx-auto px-3">
+		
+			<div class="mb-2">
+				<div><span>총 : ${articlesCut } 글</span></div>
+			</div>
+			
 			<div class="overflow-x-auto">
 				<table class="table table-zebra text-xl">
 					<thead class="text-base">

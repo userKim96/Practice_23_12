@@ -36,13 +36,18 @@ public class ArticleService {
 		articleDao.writeArticle(title, body, memberId);
 	}
 	
-	public List<Article> getArticles() {
-		return articleDao.getArticles();
+	public List<Article> getArticles(int boardId) {
+		return articleDao.getArticles(boardId);
 	}
 
 
 	public int getLastInsertId() {
 		return articleDao.getLastInsertId();
+	}
+
+
+	public int getArticlesCut(int boardId) {
+		return articleDao.getArticlesCut(boardId);
 	}
 
 }
