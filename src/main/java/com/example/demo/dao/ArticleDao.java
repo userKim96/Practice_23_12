@@ -15,9 +15,10 @@ public interface ArticleDao {
 	
 	@Insert("""
 			INSERT INTO article
-				SET regDate = NOW(),
-					, updateDate = NOW(),
+				SET regDate = NOW()
+					, updateDate = NOW()
 					, memberId = #{memberId}
+					, boardId = 1
 					, title = #{title}
 					, body = #{body}
 			""")

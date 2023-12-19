@@ -8,8 +8,8 @@
 	
 	<section class="mt-8 text-xl">
 		<div class="container mx-auto px-3">
-			<div class="table-box-type">
-				<table>
+			<div class="overflow-x-auto">
+				<table class="table table-zebra text-xl">
 					<tr>
 						<td>번호</td>
 						<th>${article.id }</th>
@@ -40,11 +40,11 @@
 			</div>
 			
 			<div class="btns">
-				<button onclick="history.back()">뒤로가기</button>
+				<button class="btn btn-sm btn-outline mt-4 p-2" onclick="history.back()">뒤로가기</button>
 				
 				<c:if test="${logindMemberId != null && logindMemberId  == article.memberId }">
-					<a href="modify?id=${article.id }">수정</a>
-					<a href="doDelete?id=${article.id }" onclick="if(confirm('정말 삭제하시겠습니까?') == false) return false;">삭제</a>
+						<a class="btn btn-sm btn-outline mt-4 p-2" href="modify?id=${article.id }">수정</a>
+						<a class="btn btn-sm btn-outline mt-4 p-2" href="doDelete?id=${article.id }" onclick="if(confirm('정말 삭제하시겠습니까?') == false) return false;">삭제</a>
 				</c:if>
 			</div>
 		</div>

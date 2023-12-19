@@ -6,11 +6,11 @@
 	
 	<%@ include file="../common/head.jsp" %>
 	
-	<section class="mt-8 text-xl">
+	<section class="mt-8">
 		<div class="container mx-auto px-3">
-			<div class="table-box-type">
-				<table>
-					<thead>
+			<div class="overflow-x-auto">
+				<table class="table table-zebra text-xl">
+					<thead class="text-base">
 						<tr>
 							<th>번호</th>
 							<th>작성일</th>
@@ -23,14 +23,22 @@
 							<tr>
 								<th>${article.id }</th>
 								<th>${article.regDate.substring(2, 16) }</th>
-								<th class="hover:nuderline"><a href="detail?id=${article.id }">${article.title }</a></th>
+								<th class="hover:underline"><a href="detail?id=${article.id }">${article.title }</a></th>
 								<th>${article.writerName }</th>
 							</tr>
 						</c:forEach>
 					</tbody>
 				</table>
 			</div>
+			
+			<c:if test="${rq.getLoginedMemberId() != 0 }">
+				<div class="mt-4 flex justify-end">
+					<a class="btn btn-sm btn-outline" href="write?id=${article.id }">글쓰기</a>
+				</div>
+			</c:if>
 		</div>
+		
 	</section>
+	
 	
 	<%@ include file="../common/foot.jsp" %>

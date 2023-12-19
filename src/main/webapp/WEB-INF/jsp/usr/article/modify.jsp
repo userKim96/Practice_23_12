@@ -10,8 +10,8 @@
 		<div class="container mx-auto px-3">
 			<form action="doModify" method="post">
 				<input name="id" type="hidden" value="${article.id }" />
-				<div class="table-box-type">
-					<table>
+				<div class="overflow-x-auto">
+					<table class="table table-zebra text-xl">
 						<tr>
 							<td>번호</td>
 							<th>${article.id }</th>
@@ -30,21 +30,19 @@
 						</tr>
 						<tr>
 							<td>제목</td>
-							<th><input name="title" type="text" value="${article.title }" placeholder="제목을 입력해주세요." /></th>
+							<th><input name="title" type="text" placeholder="Type here" class="input input-bordered input-lg w-full max-w-xs" value="${article.title }" placeholder="제목을 입력해주세요." /></th>
 						</tr>
 						<tr>
 							<td>내용</td>
-							<th><textarea name="body" placeholder="내용을 입력해주세요.">${article.body }</textarea></th>
-						</tr>
-						<tr>
-							<td colspan="2"><button>수정</button></td>
+							<th><textarea name="body" placeholder="Type here" class="input input-bordered input-lg w-full max-w-xs" placeholder="내용을 입력해주세요.">${article.body }</textarea></th>
 						</tr>
 					</table>
+					<button class="btn btn-sm btn-outline mt-4 ml-2">수정</button>
 				</div>
 			</form>
-			<div class="btns">
-				<button onclick="history.back()">뒤로가기</button>
-			</div>
+				<div class="btns flex justify-between">
+					<button class="btn btn-sm btn-outline mt-4" onclick="history.back()">뒤로가기</button>
+				</div>
 		</div>
 	</section>
 	
