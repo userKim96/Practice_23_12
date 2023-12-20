@@ -36,8 +36,9 @@ public class ArticleService {
 		articleDao.writeArticle(title, body, memberId, boardId);
 	}
 	
-	public List<Article> getArticles(int boardId) {
-		return articleDao.getArticles(boardId);
+	public List<Article> getArticles(int boardId, int limitStart, int itemsInAPage) {
+		
+		return articleDao.getArticles(boardId, limitStart, itemsInAPage);
 	}
 
 
@@ -46,8 +47,8 @@ public class ArticleService {
 	}
 
 
-	public int getArticlesCut(int boardId) {
-		return articleDao.getArticlesCut(boardId);
+	public int getArticlesCnt(int boardId) {
+		return articleDao.getArticlesCnt(boardId);
 	}
 
 

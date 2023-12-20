@@ -35,9 +35,10 @@ public interface ArticleDao {
 						WHERE A.boardId = #{boardId}
 					</if>
 					ORDER BY A.id DESC
+					LIMIT #{limitStart}, #{itemsInAPage}
 			</script>
 			""")
-	public List<Article> getArticles(int boardId);
+	public List<Article> getArticles(int boardId, int limitStart, int itemsInAPage);
 	
 	@Select("""
 			SELECT *
@@ -87,12 +88,10 @@ public interface ArticleDao {
 			<script>
 				SELECT COUNT(*)
 				FROM article
-				<if test="boardId != 0">
-					WHERE boardId = #{boardId}
-				</if>
+				WHERE boardId = #{boardId}
 			</script>
 			""")
-	public int getArticlesCut(int boardId);
+	public int getArticlesCnt(int boardId);
 
 	@Select("""
 			SELECT authLevel
