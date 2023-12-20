@@ -31,14 +31,31 @@ public interface ArticleDao {
 					FROM article AS A
 					INNER JOIN `member` AS M
 					ON A.memberId = M.id
+					WHERE 1=1
 					<if test="boardId != 0">
-						WHERE A.boardId = #{boardId}
+						AND A.boardId = #{boardId}
+					</if>
+					<if test="searchKeyword != ''">
+						<choose>
+							<when test="searchKeywordType == 'keywordTitle'">
+								AND title LIKE CONCAT('%', #{searchKeyword}, '%')
+							</when>
+							<when test="searchKeywordType == 'keywordBody'">
+								AND body LIKE CONCAT('%', #{searchKeyword}, '%')
+							</when>
+							<otherwise>
+								AND (
+									title LIKE CONCAT('%', #{searchKeyword}, '%')
+									OR `body` LIKE CONCAT('%', #{searchKeyword}, '%')
+									)
+							</otherwise>
+						</choose>
 					</if>
 					ORDER BY A.id DESC
 					LIMIT #{limitStart}, #{itemsInAPage}
 			</script>
 			""")
-	public List<Article> getArticles(int boardId, int limitStart, int itemsInAPage);
+	public List<Article> getArticles(int boardId, int limitStart, int itemsInAPage, String searchKeyword, String searchKeywordType);
 	
 	@Select("""
 			SELECT *
@@ -87,11 +104,27 @@ public interface ArticleDao {
 	@Select("""
 			<script>
 				SELECT COUNT(*)
-				FROM article
-				WHERE boardId = #{boardId}
+					FROM article
+					WHERE boardId = #{boardId}
+					<if test="searchKeyword != ''">
+						<choose>
+							<when test="searchKeywordType == 'keywordTitle'">
+								AND title LIKE CONCAT('%', #{searchKeyword}, '%')
+							</when>
+							<when test="searchKeywordType == 'keywordBody'">
+								AND body LIKE CONCAT('%', #{searchKeyword}, '%')
+							</when>
+							<otherwise>
+								AND (
+									title LIKE CONCAT('%', #{searchKeyword}, '%')
+									OR `body` LIKE CONCAT('%', #{searchKeyword}, '%')
+									)
+							</otherwise>
+						</choose>
+					</if>
 			</script>
 			""")
-	public int getArticlesCnt(int boardId);
+	public int getArticlesCnt(int boardId, String searchKeyword, String searchKeywordType);
 
 	@Select("""
 			SELECT authLevel
