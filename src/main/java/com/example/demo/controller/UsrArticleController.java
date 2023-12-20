@@ -2,7 +2,6 @@ package com.example.demo.controller;
 
 import java.util.List;
 
-import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,8 +14,6 @@ import com.example.demo.service.BoardService;
 import com.example.demo.vo.Article;
 import com.example.demo.vo.Board;
 import com.example.demo.vo.Rq;
-
-import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 public class UsrArticleController {
@@ -156,6 +153,8 @@ public class UsrArticleController {
 	
 	@RequestMapping("/usr/article/detail")
 	public String detail(Model model, int id) {
+		
+		articleService.incrementHitCount(id);
 		
 		Article article = articleService.forPrintArticle(id);
 		

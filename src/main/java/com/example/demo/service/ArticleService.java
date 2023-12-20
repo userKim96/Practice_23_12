@@ -56,4 +56,9 @@ public class ArticleService {
 		return articleDao.getWriterAuthLevel(loginedMemberId);
 	}
 
+
+	public void incrementHitCount(int id) {
+		articleDao.incrementHitCount(id);
+	}
+
 }

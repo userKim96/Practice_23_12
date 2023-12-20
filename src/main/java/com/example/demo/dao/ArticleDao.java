@@ -132,4 +132,10 @@ public interface ArticleDao {
 			WHERE id = #{loginedMemberId}
 			""")
 	public int getWriterAuthLevel(int loginedMemberId);
+	
+	@Update("""
+			UPDATE article
+				SET id
+			""")
+	public void incrementHitCount(int id);
 }
