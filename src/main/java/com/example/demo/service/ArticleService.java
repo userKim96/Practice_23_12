@@ -58,15 +58,8 @@ public class ArticleService {
 		return articleDao.getWriterAuthLevel(loginedMemberId);
 	}
 
-	public ResultDate<Integer> increaseHitCount(int id) {
-		
-		int affectedRowsCnt = articleDao.increaseHitCount(id);
-		
-		if (affectedRowsCnt == 0) {
-			return ResultDate.from("F-1", Util.f("%d번 게시물은 존재하지 않습니다.", id), affectedRowsCnt);
-		}
-		
-		return ResultDate.from("S-1", "조회수 증가", affectedRowsCnt);
+	public void increaseHitCount(int id) {
+		articleDao.increaseHitCount(id);
 	}
 
 
