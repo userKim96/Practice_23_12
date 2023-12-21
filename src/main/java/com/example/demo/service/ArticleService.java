@@ -4,8 +4,10 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.example.demo.Util.Util;
 import com.example.demo.dao.ArticleDao;
 import com.example.demo.vo.Article;
+import com.example.demo.vo.ResultDate;
 
 @Service
 public class ArticleService {
@@ -56,9 +58,20 @@ public class ArticleService {
 		return articleDao.getWriterAuthLevel(loginedMemberId);
 	}
 
+	public ResultDate<Integer> increaseHitCount(int id) {
+		
+		int affectedRowsCnt = articleDao.increaseHitCount(id);
+		
+		if (affectedRowsCnt == 0) {
+			return ResultDate.from("F-1", Util.f("%d번 게시물은 존재하지 않습니다.", id), affectedRowsCnt);
+		}
+		
+		return ResultDate.from("S-1", "조회수 증가", affectedRowsCnt);
+	}
 
-	public void incrementHitCount(int id) {
-		articleDao.incrementHitCount(id);
+
+	public int getArticleHitCount(int id) {
+		return articleDao.getArticleHitCount(id);
 	}
 
 }

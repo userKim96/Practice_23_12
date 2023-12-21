@@ -13,6 +13,7 @@ import com.example.demo.service.ArticleService;
 import com.example.demo.service.BoardService;
 import com.example.demo.vo.Article;
 import com.example.demo.vo.Board;
+import com.example.demo.vo.ResultDate;
 import com.example.demo.vo.Rq;
 
 @Controller
@@ -154,13 +155,30 @@ public class UsrArticleController {
 	@RequestMapping("/usr/article/detail")
 	public String detail(Model model, int id) {
 		
-		articleService.incrementHitCount(id);
+		ResultDate<Integer> increaseHitCountRd = articleService.increaseHitCount(id);
+		
+		if (increaseHitCountRd.isFail()) {
+			return rq.jsReturnOnView(increaseHitCountRd.getMsg());
+		}
 		
 		Article article = articleService.forPrintArticle(id);
 		
 		model.addAttribute("article", article);
 		model.addAttribute("logindMemberId", rq.getLoginedMemberId());
 		return "usr/article/detail";
+	}
+	
+	@RequestMapping("/usr/article/doIncreaseHitCount")
+	@ResponseBody
+	public ResultDate<Integer> doIncreaseHitCount(int id) {
+		
+		ResultDate<Integer> increaseHitCountRd = articleService.increaseHitCount(id);
+		
+		if (increaseHitCountRd.isFail()) {
+			return increaseHitCountRd;
+		}
+		
+		return ResultDate.from(increaseHitCountRd.getResultCode(), increaseHitCountRd.getMsg(), articleService.getArticleHitCount(id));
 	}
 	
 }

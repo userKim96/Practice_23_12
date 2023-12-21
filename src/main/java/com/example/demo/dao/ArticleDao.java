@@ -135,7 +135,15 @@ public interface ArticleDao {
 	
 	@Update("""
 			UPDATE article
-				SET id
+				SET hitCount = hitCount + 1
+				WHERE id = #{id}
 			""")
-	public void incrementHitCount(int id);
+	public int increaseHitCount(int id);
+	
+	@Select("""
+			SELECT hitCount
+				FROM article
+				WHERE id = #{id}
+			""")
+	public int getArticleHitCount(int id);
 }

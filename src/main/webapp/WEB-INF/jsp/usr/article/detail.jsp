@@ -6,6 +6,52 @@
 	
 	<%@ include file="../common/head.jsp" %>
 	
+	
+<!-- 	<script>
+		const articleDetail_increaseHitCount = function(){
+			$.ajax({
+				url: "doIncreaseHitCount",
+				method: "get",
+				data: {"id": parseInt('${param.id }')},
+				dataType: "json",
+				success: function(data) {
+					$("#increaseHitCount").html(data.data);
+				},
+				error: function(xhr, status, error) {
+					console.error("ERROR : " + status + " - " + error);
+				}
+			})
+		}
+		
+		$(function(){
+			articleDetail_increaseHitCount();
+			
+// 			setTimeout(articleDetail_increaseHitCount, 3000);
+		})
+	</script> -->
+	
+	
+ 	<script>
+ 		const articleDetail_increaseHitCount = function(){
+			$.ajax({
+				url: "doIncreaseHitCount",
+				method: "get",
+				data: {"id": parseInt('${param.id }')},
+				dataType: "json",
+				success: function(data) {
+					$("#increaseHitCount").html(data.data);
+				},
+				error: function(xhr, status, error) {
+					console.error("ERROR : " + status + "-" + error);
+				}
+			})
+		}
+		
+		$(function(){
+			articleDetail_increaseHitCount();
+		})
+	</script>
+	
 	<section class="mt-8 text-xl">
 		<div class="container mx-auto px-3">
 			<div class="overflow-x-auto">
@@ -24,7 +70,7 @@
 					</tr>
 					<tr>
 						<td>조회수</td>
-						<th>${ }</th>
+						<th><span id="increaseHitCount">${article.hitCount }</span></th>
 					</tr>
 					<tr>
 						<td>작성자</td>

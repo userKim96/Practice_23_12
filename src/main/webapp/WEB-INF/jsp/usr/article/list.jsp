@@ -6,7 +6,6 @@
 
 	<%@ include file="../common/head.jsp" %>
 	
-	
 	<section class="mt-8">
 		<div class="container mx-auto px-3">
 			<div class="flex justify-between">
@@ -39,8 +38,9 @@
 						<tr>
 							<th>번호</th>
 							<th>작성일</th>
-							<th>작성자</th>
 							<th>제목</th>
+							<th>작성자</th>
+							<th>조회수</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -50,6 +50,7 @@
 								<th>${article.regDate.substring(2, 16) }</th>
 								<th class="hover:underline"><a href="detail?id=${article.id }">${article.title }</a></th>
 								<th>${article.writerName }</th>
+								<th>${article.hitCount }</th>
 							</tr>
 						</c:forEach>
 					</tbody>
