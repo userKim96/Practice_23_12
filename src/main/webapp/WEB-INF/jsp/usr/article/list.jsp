@@ -41,6 +41,7 @@
 							<th>제목</th>
 							<th>작성자</th>
 							<th>조회수</th>
+							<th>추천수</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -51,6 +52,7 @@
 								<th class="hover:underline"><a href="detail?id=${article.id }">${article.title }</a></th>
 								<th>${article.writerName }</th>
 								<th>${article.hitCount }</th>
+								<th>${article.point }</th>
 							</tr>
 						</c:forEach>
 					</tbody>

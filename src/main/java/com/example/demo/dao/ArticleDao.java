@@ -27,32 +27,36 @@ public interface ArticleDao {
 	
 	@Select("""
 			<script>	
-				SELECT A.*, M.name AS writerName
-					FROM article AS A
-					INNER JOIN `member` AS M
-					ON A.memberId = M.id
-					WHERE 1=1
-					<if test="boardId != 0">
-						AND A.boardId = #{boardId}
-					</if>
-					<if test="searchKeyword != ''">
-						<choose>
-							<when test="searchKeywordType == 'keywordTitle'">
-								AND title LIKE CONCAT('%', #{searchKeyword}, '%')
-							</when>
-							<when test="searchKeywordType == 'keywordBody'">
-								AND body LIKE CONCAT('%', #{searchKeyword}, '%')
-							</when>
-							<otherwise>
-								AND (
-									title LIKE CONCAT('%', #{searchKeyword}, '%')
-									OR `body` LIKE CONCAT('%', #{searchKeyword}, '%')
-									)
-							</otherwise>
-						</choose>
-					</if>
-					ORDER BY A.id DESC
-					LIMIT #{limitStart}, #{itemsInAPage}
+			SELECT A.*, M.name AS writerName, IFNULL(SUM(R.point), 0) AS point
+				FROM article AS A
+				INNER JOIN `member` AS M
+				ON A.memberId = M.id
+				LEFT JOIN recommendPoint as R
+				ON relTypeCode = 'article'
+				AND A.id = R.relId
+				WHERE 1=1
+				<if test="boardId != 0">
+					AND A.boardId = #{boardId}
+				</if>
+				<if test="searchKeyword != ''">
+					<choose>
+						<when test="searchKeywordType == 'keywordTitle'">
+							AND title LIKE CONCAT('%', #{searchKeyword}, '%')
+						</when>
+						<when test="searchKeywordType == 'keywordBody'">
+							AND body LIKE CONCAT('%', #{searchKeyword}, '%')
+						</when>
+						<otherwise>
+							AND (
+								title LIKE CONCAT('%', #{searchKeyword}, '%')
+								OR `body` LIKE CONCAT('%', #{searchKeyword}, '%')
+								)
+						</otherwise>
+					</choose>
+				</if>
+				GROUP BY A.id
+				ORDER BY A.id DESC
+				LIMIT #{limitStart}, #{itemsInAPage}
 			</script>
 			""")
 	public List<Article> getArticles(int boardId, int limitStart, int itemsInAPage, String searchKeyword, String searchKeywordType);
@@ -65,11 +69,15 @@ public interface ArticleDao {
 	public Article forPrintArticle(int id);
 	
 	@Select("""
-			SELECT A.*, M.name AS writerName
+			SELECT A.*, M.name AS writerName, IFNULL(SUM(R.point), 0) AS point
 				FROM article AS A
 				INNER JOIN `member` AS M
 				ON A.memberId = M.id
+				LEFT JOIN recommendPoint as R
+				ON relTypeCode = 'article'
+				AND A.id = R.relId
 				WHERE A.id = #{id}
+				GROUP BY A.id
 			""")
 	public Article getArticleById(int id);
 	

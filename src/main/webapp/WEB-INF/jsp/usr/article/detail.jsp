@@ -27,6 +27,18 @@
 						<th><span id="increaseHitCount">${article.hitCount }</span></th>
 					</tr>
 					<tr>
+						<td>추천수</td>
+						<th>
+							<c:if test="${rq.getLoginedMemberId() == 0 }">
+								<span>${article.point }</span>
+							</c:if>
+							<c:if test="${rq.getLoginedMemberId() != 0 }">
+								<span>${article.point }</span>
+								<button class="btn btn-xs btn-outline">👍</button>
+							</c:if>
+						</th>
+					</tr>
+					<tr>
 						<td>작성자</td>
 						<th>${article.writerName }</th>
 					</tr>

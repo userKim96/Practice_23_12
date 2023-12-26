@@ -12,6 +12,7 @@ public class Article {
 	private String updateDate;
 	private int hitCount;
 	private int memberId;
+	private int Point;
 	private String title;
 	private String body;
 	
